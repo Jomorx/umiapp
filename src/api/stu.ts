@@ -1,9 +1,10 @@
-import { request } from 'umi';
+import moRequest from '../service/index';
+
 export const getStu = () =>
-  request('/classes/stu', {
+  moRequest.get('/classes/stu', {
     method: 'GET',
   });
 export const deleteStu = (id: number) =>
-  request(`/classes/stu?id=${id}`, {
+  moRequest.delete(`/classes/stu?id=${id}`, {
     method: 'DELETE',
   });
