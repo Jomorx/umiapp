@@ -1,6 +1,7 @@
-import { Button, Form, Input, Select } from 'antd';
+import { addCake } from '@/api/cake';
+import { Button, Form, Input, Spin } from 'antd';
 import React from 'react';
-
+import { useRequest } from 'umi';
 const layout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 16 },
@@ -12,28 +13,32 @@ const tailLayout = {
 const App: React.FC = () => {
   const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {
-    console.log(values);
-  };
+  const { data, loading, error, run } = useRequest(addCake, { manual: true });
 
   const onReset = () => {
     form.resetFields();
   };
 
   return (
-    <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
-      <Form.Item name="cateName" label="蛋糕名字" rules={[{ required: true }]}>
-        <Input autoComplete="false" />
-      </Form.Item>
-      <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-        <Button htmlType="button" onClick={onReset}>
-          Reset
-        </Button>
-      </Form.Item>
-    </Form>
+    <Spin spinning={loading}>
+      <Form {...layout} form={form} name="control-hooks" onFinish={run}>
+        <Form.Item
+          name="cateName"
+          label="蛋糕名字"
+          rules={[{ required: true }]}
+        >
+          <Input autoComplete="false" />
+        </Form.Item>
+        <Form.Item {...tailLayout}>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+          <Button htmlType="button" onClick={onReset}>
+            Reset
+          </Button>
+        </Form.Item>
+      </Form>
+    </Spin>
   );
 };
 
